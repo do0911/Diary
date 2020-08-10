@@ -1,24 +1,34 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { List, ListItem, Text, Left, Body, Thumbnail } from "native-base";
 
 const key = "4db63680f8c4739690e7668f2d78f7cc";
 
+const weatherCases = {
+  Rain: "10n",
+  Clear: "01n",
+  Thunder: "11n",
+  Clouds: "03n",
+  Snow: "13n",
+  Drizzle: "10n",
+  Haze: "50n",
+};
 class Weather extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       error: false,
-      lat: null,
-      lon: null,
-      country: null,
-      city: null,
-      temp: null,
-      feel_temp: null,
-      weather: null,
-      date: null,
+      lat: "",
+      lon: "",
+      country: "",
+      city: "",
+      temp: "",
+      feel_temp: "",
+      weather: "",
+      date: "",
+      weekday: "",
     };
   }
 
@@ -54,7 +64,17 @@ class Weather extends Component {
   _getDate = () => {
     let today = new Date();
 
+    const week = new Array(
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    );
     this.setState({
+      weekday: week[today.getDay()],
       date: today.toLocaleDateString(),
     });
   };
@@ -65,15 +85,26 @@ class Weather extends Component {
         <List>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={require("../src/back.jpg")} />
+              <Image
+                source={require("../assets/date.png")}
+                style={{ height: 35, width: 35 }}
+              />
             </Left>
             <Body>
               <Text>{this.state.date}</Text>
+              <Text note>{this.state.weekday}</Text>
             </Body>
           </ListItem>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={require("../src/back.jpg")} />
+              <Image
+                source={{
+                  uri: `http://openweathermap.org/img/wn/${
+                    weatherCases[this.state.weather]
+                  }@4x.png`,
+                }}
+                style={{ height: 60, width: 35 }}
+              />
             </Left>
             <Body>
               <Text>{Math.floor(this.state.temp - 273.15) + "º"}</Text>
@@ -85,7 +116,10 @@ class Weather extends Component {
 
           <ListItem avatar>
             <Left>
-              <Thumbnail source={require("../src/back.jpg")} />
+              <Image
+                source={require("../assets/earth.png")}
+                style={{ height: 35, width: 35 }}
+              />
             </Left>
             <Body>
               <Text>{this.state.country}</Text>

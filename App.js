@@ -26,7 +26,7 @@ const Login = ({ navigation }) => {
   return (
     <ImageBackground
       style={styles.container}
-      source={require("./src/back.jpg")}
+      source={require("./assets/back.jpg")}
     >
       <Animated.View
         style={[
@@ -73,16 +73,6 @@ const styles = StyleSheet.create({
   },
   info: {
     width: 170,
-  },
-  fadingText: {
-    fontSize: 28,
-    textAlign: "center",
-    margin: 10,
-  },
-  fadingContainer: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "powderblue",
   },
 });
 
